@@ -10,9 +10,10 @@ app.use(cors()); // Enable CORS for all routes
 app.use(bodyParser.json()); // Parse JSON request bodies
 
 // Routes
-const userRoutes = require('./routes/userRoutes'); // Import user routes
-app.use('/api/users', userRoutes); // Mount user routes at /api/users
-
+const userRoutes = require('./routes/userRoutes');
+app.use('/api/users', userRoutes);
+const groupRoutes = require('./routes/groupRoutes')
+app.use('/api/groups', groupRoutes);
 
 // Server
 const { server } = require('./config/config');
