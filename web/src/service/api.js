@@ -2,11 +2,10 @@ import axios from 'axios';
 
 // Create an instance of Axios with custom configuration
 const apiInstance = axios.create({
-  baseURL: 'https://api.example.com', // Replace with your API base URL
-  timeout: 10000, // Set a timeout for requests (in milliseconds)
+  baseURL: 'http://localhost:3001/',
+  timeout: 10000,
   headers: {
-    'Content-Type': 'application/json', // Set default content type
-    // You can also set other headers here
+    'Content-Type': 'application/json',
   },
 });
 

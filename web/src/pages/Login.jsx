@@ -5,9 +5,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    // Handle login click
-    // Navigate to a different route using navigate('/your-route')
-    navigate('/dashboard'); // Replace with your desired route
+    navigate('/groups');
   };
 
   return (

@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    // Make API call when component mounts
     axios.get('/api/myEndpoint')
       .then(response => {
         setData(response.data);
@@ -15,6 +15,8 @@ const RegisterPage = () => {
         console.error('API Error:', error);
       });
   }, []);
+
+  console.log(data)
 
   const handleRegisterClick = () => {
     navigate('/login');
