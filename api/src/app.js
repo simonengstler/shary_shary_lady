@@ -1,8 +1,6 @@
 const express = require('express');
 const cors = require('cors'); // For handling cross-origin requests
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
+const http = require('http'); // Use http instead of https
 const bodyParser = require('body-parser'); // For parsing request bodies
 require('dotenv').config(); // Load environment variables from .env file
 
@@ -11,12 +9,6 @@ const app = express();
 // Middleware
 app.use(cors()); // Enable CORS for all routes
 app.use(bodyParser.json()); // Parse JSON request bodies
-
-// Certificate
-const options = {
-  key: fs.readFileSync(path.join(__dirname, '../ssl/localhost.key')),
-  cert: fs.readFileSync(path.join(__dirname, '../ssl/localhost.crt')),
-};
 
 // List of route modules
 const routeModules = [
@@ -30,9 +22,9 @@ routeModules.forEach(routeModule => {
   app.use(routeModule.path, routeModule.module);
 });
 
-// HTTPS Server
+// HTTP Server
 const { server } = require('./config/config');
-const serverInstance = https.createServer(options, app);
+const serverInstance = http.createServer(app); // Use http.createServer instead
 
 serverInstance.listen(server.port, () => {
   console.log(`Server is running on port ${server.port}`);

@@ -4,12 +4,16 @@ const getUserById = (userId) => {
   return userModel.getUserById(userId);
 };
 
-const getUsers = () => {
-    return userModel.getUsers();
+const getUserByUsername = (username) => {
+    return userModel.getUserByUsername(username);
   };
-  
+
+const getUsers = () => {
+  return userModel.getUsers();
+};
 
 module.exports = {
   getUserById,
+  getUserByUsername,
   getUsers,
 };
