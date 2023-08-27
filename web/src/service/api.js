@@ -9,15 +9,11 @@ const apiInstance = axios.create({
   },
 });
 
-// Define API functions
 const api = {
-  // Example function to get user data
   getUserData: (userId) => apiInstance.get(`/users/${userId}`),
-
-  // Example function to create a new post
+  getGroups: () => apiInstance.get('/api/groups'),
   createPost: (postData) => apiInstance.post('/posts', postData),
   
-  // Add more API functions as needed
 };
 
 export default api;

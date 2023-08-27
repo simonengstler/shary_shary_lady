@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../service/api';
 
 const Groups = () => {
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
 
-  const groupsData = [
-    { id: 1, name: 'Group 1' },
-    { id: 2, name: 'Group 2' },
-    { id: 3, name: 'Group 3' },
-    // Add more groups as needed
-  ];
+  // const groupsData = [
+  //   { id: 1, name: 'Group 1' },
+  //   { id: 2, name: 'Group 2' },
+  //   { id: 3, name: 'Group 3' },
+  //   // Add more groups as needed
+  // ];
+
+  useEffect(() => {
+    api
+      .getGroups()
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error('API Error:', error);
+      });
+  }, []);
+
+  const groupsData = data;
 
   return (
     <div className="bg-gray-200 h-screen flex flex-col justify-center items-center">

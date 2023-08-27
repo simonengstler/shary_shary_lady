@@ -9,11 +9,19 @@ const app = express();
 app.use(cors()); // Enable CORS for all routes
 app.use(bodyParser.json()); // Parse JSON request bodies
 
-// Routes
-const userRoutes = require('./routes/userRoutes');
-app.use('/api/users', userRoutes);
-const groupRoutes = require('./routes/groupRoutes')
-app.use('/api/groups', groupRoutes);
+// List of route modules
+const routeModules = [
+  { path: '/api/users', module: require('./routes/userRoutes') },
+  { path: '/api/groups', module: require('./routes/groupRoutes') },
+  { path: '/api/register', module: require('./routes/registerRoutes') },
+  { path: '/api/login', module: require('./routes/loginRoutes') },
+  // Add more route modules as needed
+];
+
+// Loop through and add routes
+routeModules.forEach(routeModule => {
+  app.use(routeModule.path, routeModule.module);
+});
 
 // Server
 const { server } = require('./config/config');
