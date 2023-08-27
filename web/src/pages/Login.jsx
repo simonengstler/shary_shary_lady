@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../redux/auth/authActions';
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // Get dispatch function
+  const dispatch = useDispatch();
+  const loginError = useSelector((state) => state.auth.error);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLoginClick = () => {
-    dispatch(loginUser(username, password));
-    navigate('/groups');
+  const handleLoginClick = async () => {
+    try {
+      await dispatch(loginUser(username, password));
+      navigate('/groups');
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
   };
 
   return (
@@ -42,6 +47,10 @@ const LoginPage = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        {loginError && (
+          <p className="text-red-500">{loginError}</p>
+        )}
 
         <button
           className="text-white bg-black border-2 border-black px-10 py-2 rounded-lg text-lg"

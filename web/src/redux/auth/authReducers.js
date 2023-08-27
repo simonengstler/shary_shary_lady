@@ -2,6 +2,7 @@ import { LOGIN_SUCCESS, LOGIN_FAILURE } from './authTypes';
 
 const initialState = {
   token: null,
+  error: null, 
 };
 
 const authReducer = (state = initialState, action) => {
@@ -10,11 +11,13 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         token: action.payload,
+        error: null,
       };
     case LOGIN_FAILURE:
       return {
         ...state,
         token: null,
+        error: action.payload,
       };
     default:
       return state;

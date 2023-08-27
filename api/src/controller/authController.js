@@ -35,7 +35,6 @@ const loginUser = async (req, res) => {
       res.status(401).json({ error: "Invalid username or password" });
     }
   } catch (error) {
-    console.error("Error logging in:", error);
     res.status(500).json({ error: "An error occurred while logging in" });
   }
 };

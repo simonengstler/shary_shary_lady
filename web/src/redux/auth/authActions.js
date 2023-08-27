@@ -6,8 +6,9 @@ export const loginSuccess = (token) => ({
   payload: token,
 });
 
-export const loginFailure = () => ({
+export const loginFailure = (errorMessage) => ({
   type: LOGIN_FAILURE,
+  payload: errorMessage,
 });
 
 export const loginUser = (username, password) => {
@@ -18,8 +19,13 @@ export const loginUser = (username, password) => {
       dispatch(loginSuccess(token));
       console.log('Logged in successfully');
     } catch (error) {
-      dispatch(loginFailure());
+      console.log(error)
+      const errorMessage = error.response && error.response.data && error.response.data.error
+        ? error.response.data.error
+        : 'An error occurred while logging in';
+      dispatch(loginFailure(errorMessage));
       console.error('Error logging in:', error);
+      return Promise.reject(errorMessage); // Reject the promise with the error message
     }
   };
 };
