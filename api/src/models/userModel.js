@@ -16,6 +16,19 @@ const getUserById = (userId) => {
   });
 };
 
+const getUserByUsername = (username) => {
+  return new Promise((resolve, reject) => {
+    const query = 'SELECT * FROM users WHERE username = ?';
+    connection.query(query, [username], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
 const getUsers = () => {
   return new Promise((resolve, reject) => {
     const query = 'SELECT * FROM users';
@@ -29,7 +42,23 @@ const getUsers = () => {
   });
 };
 
+const createUser = (username, hashedPassword) => {
+  return new Promise((resolve, reject) => {
+    const query = "INSERT INTO users (username, password) VALUES (?, ?)";
+    connection.query(query, [username, hashedPassword], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
+
 module.exports = {
   getUserById,
+  getUserByUsername,
   getUsers,
+  createUser,
 };

@@ -6,13 +6,6 @@ const Groups = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
 
-  // const groupsData = [
-  //   { id: 1, name: 'Group 1' },
-  //   { id: 2, name: 'Group 2' },
-  //   { id: 3, name: 'Group 3' },
-  //   // Add more groups as needed
-  // ];
-
   useEffect(() => {
     api
       .getGroups()

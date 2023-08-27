@@ -1,25 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../service/api';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState([]);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  useEffect(() => {
-    axios.get('/api/myEndpoint')
-      .then(response => {
-        setData(response.data);
-      })
-      .catch(error => {
-        console.error('API Error:', error);
-      });
-  }, []);
-
-  console.log(data)
-
-  const handleRegisterClick = () => {
-    navigate('/login');
+  const handleRegisterClick = async () => {
+    try {
+      await api.registerUser({ username, password });
+      console.log('User registered successfully');
+      navigate('/login');
+    } catch (error) {
+      console.error('Error registering user:', error);
+    }
   };
 
   return (
@@ -32,20 +27,22 @@ const RegisterPage = () => {
           &larr;
         </button>
 
-        <h3 className="text-3xl text-left my-6">
-          Register
-        </h3>
+        <h3 className="text-3xl text-left my-6">Register</h3>
 
         <input
           type="text"
           className="border-2 border-black px-4 py-2 rounded mb-4"
           placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
 
         <input
           type="password"
           className="border-2 border-black px-4 py-2 rounded mb-4"
           placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
 
         <button
