@@ -20,6 +20,12 @@ const LoginPage = () => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleLoginClick();
+    }
+  };
+
   return (
     <div className="bg-gray-200 h-screen flex flex-col">
       <div className="bg-white p-8 rounded-lg h-screen shadow-md relative">
@@ -38,6 +44,7 @@ const LoginPage = () => {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
 
         <input
@@ -46,6 +53,7 @@ const LoginPage = () => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
 
         {loginError && (
