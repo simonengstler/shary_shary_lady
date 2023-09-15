@@ -14,6 +14,7 @@ const LoginPage = () => {
   const handleLoginClick = async () => {
     try {
       await dispatch(loginUser(username, password));
+      console.log('Logged in successfully');
       navigate('/groups');
     } catch (error) {
       console.error('Error logging in:', error);
