@@ -1,20 +1,29 @@
 import React from 'react';
-import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import Home from './pages/Home';
-import Login from './pages/Login'; // Import your Login component
-import Register from './pages/Register'; // Import your Register component
+import Login from './pages/Login';
+import Register from './pages/Register';
 import Groups from './pages/Groups';
+import ProtectedRoute from './routing/ProtectedRoute';
 
 const App = () => {
   return (
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route element={<ProtectedRoute />}>
           <Route path="/groups" element={<Groups />} />
-        </Routes>
-      </Router>
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 };
 

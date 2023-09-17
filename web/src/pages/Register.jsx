@@ -1,31 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import api from '../service/api';
+import { registerUser } from '../features/auth/authActions';
+import Error from '../components/Error';
+import Spinner from '../components/Spinner';
 
 const RegisterPage = () => {
-  const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const { loading, userInfo, error, success } = useSelector(
+    (state) => state.auth,
+  );
+  const dispatch = useDispatch();
+  const { register, handleSubmit } = useForm();
 
+  const navigate = useNavigate()
 
-  const handleRegisterClick = async () => {
-    try {
-      await api.registerUser({ username, password });
-      console.log('User registered successfully');
-      navigate('/login');
-    } catch (error) {
-      console.error('Error registering user:', error);
-      if (error.response && error.response.data && error.response.data.message) {
-        setErrorMessage(error.response.data.message);
-      }
-    }
-  };
+  useEffect(() => {
+    if (success) navigate('/login')
+    if (userInfo) navigate('/groups')
+  }, [navigate, userInfo, success])
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleRegisterClick();
-    }
+  const submitForm = (data) => {
+    dispatch(registerUser(data));
   };
 
   return (
@@ -40,34 +37,34 @@ const RegisterPage = () => {
 
         <h3 className="text-3xl text-left my-6">Register</h3>
 
-        <input
-          type="text"
-          className="border-2 border-black px-4 py-2 rounded mb-4"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
+        <form onSubmit={handleSubmit(submitForm)}>
+          {error && <Error>{error}</Error>}
+          <input
+            type="text"
+            name="username"
+            className="border-2 border-black px-4 py-2 rounded mb-4"
+            placeholder="Username"
+            {...register('username')}
+            required
+          />
 
-        <input
-          type="password"
-          className="border-2 border-black px-4 py-2 rounded mb-4"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
+          <input
+            type="password"
+            name="password"
+            className="border-2 border-black px-4 py-2 rounded mb-4"
+            placeholder="Password"
+            {...register('password')}
+            required
+          />
 
-        {errorMessage && (
-          <p className="text-red-500">{errorMessage}</p>
-        )}
-
-        <button
-          className="text-white bg-black border-2 border-black px-10 py-2 rounded-lg text-lg"
-          onClick={handleRegisterClick}
-        >
-          REGISTER
-        </button>
+          <button
+            type="submit" // Specify the button type as "submit" to trigger form submission
+            className="text-white bg-black border-2 border-black px-10 py-2 rounded-lg text-lg"
+            disabled={loading}
+          >
+            {loading ? <Spinner /> : 'REGISTER'}
+          </button>
+        </form>
       </div>
     </div>
   );

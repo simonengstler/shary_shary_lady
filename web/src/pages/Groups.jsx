@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../service/api';
+import { useDispatch } from 'react-redux';
+import { logout } from '../features/auth/authSlice'
+import api from '../app/services/api';
 
 const Groups = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     api
@@ -19,12 +22,17 @@ const Groups = () => {
 
   const groupsData = data;
 
+  const performLogout = () => {
+    dispatch(logout());
+    navigate('/');
+  };
+
   return (
     <div className="bg-gray-200 h-screen flex flex-col justify-center items-center">
       <div className="bg-white py-8 rounded-lg shadow-md relative w-screen h-screen">
         <button
           className="absolute top-4 left-4 text-black"
-          onClick={() => navigate('/')}
+          onClick={() => dispatch(performLogout())}
         >
           &larr;
         </button>
