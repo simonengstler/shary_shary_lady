@@ -14,7 +14,9 @@ const Login = () => {
   const { register, handleSubmit } = useForm();
 
   useEffect(() => {
-    if (userInfo) navigate('/groups')
+    if (userInfo) {
+      navigate('/groups')
+    }
   }, [navigate, userInfo])
 
   const submitForm = (data) => {

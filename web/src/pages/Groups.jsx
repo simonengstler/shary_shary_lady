@@ -23,7 +23,7 @@ const Groups = () => {
   const groupsData = data;
 
   const performLogout = () => {
-    dispatch(logout());
+    dispatch(logout())
     navigate('/');
   };
 
@@ -32,7 +32,7 @@ const Groups = () => {
       <div className="bg-white py-8 rounded-lg shadow-md relative w-screen h-screen">
         <button
           className="absolute top-4 left-4 text-black"
-          onClick={() => dispatch(performLogout())}
+          onClick={performLogout}
         >
           &larr;
         </button>
@@ -42,7 +42,7 @@ const Groups = () => {
         <div className="w-screen ">
           {groupsData.map((group) => (
             <div
-              key={group.id}
+              key={group.group_id}
               className="bg-gray-50 text-center font-bold py-5 border-t-2 border-gray-150 shadow-md"
             >
               <span>{group.name}</span>

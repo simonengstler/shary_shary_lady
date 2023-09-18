@@ -29,7 +29,7 @@ const loginUser = async (req, res) => {
     const user = await authService.loginUser(username);
 
     if (user && bcrypt.compareSync(password, user.password)) {
-      const token = jwt.sign({ username }, "secretkey");
+      const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: '12h' });
       res.status(200).json({ token });
     } else {
       res.status(401).json({ error: "Invalid username or password" });

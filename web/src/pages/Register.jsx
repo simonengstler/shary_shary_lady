@@ -18,7 +18,6 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (success) navigate('/login')
-    if (userInfo) navigate('/groups')
   }, [navigate, userInfo, success])
 
   const submitForm = (data) => {
@@ -58,7 +57,7 @@ const RegisterPage = () => {
           />
 
           <button
-            type="submit" // Specify the button type as "submit" to trigger form submission
+            type="submit"
             className="text-white bg-black border-2 border-black px-10 py-2 rounded-lg text-lg"
             disabled={loading}
           >
