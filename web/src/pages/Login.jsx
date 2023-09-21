@@ -14,10 +14,10 @@ const Login = () => {
   const { register, handleSubmit } = useForm();
 
   useEffect(() => {
-    if (userInfo) {
+    if (userInfo && userInfo.token) {
       navigate('/groups')
     }
-  }, [navigate, userInfo])
+  }, [userInfo])
 
   const submitForm = (data) => {
     dispatch(loginUser(data));
