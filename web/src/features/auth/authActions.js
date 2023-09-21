@@ -6,6 +6,7 @@ export const loginUser = createAsyncThunk(
   async ({ username, password }, { rejectWithValue }) => {
     try {
       const { data } = await api.loginUser({ username, password });
+      localStorage.setItem('userInfo', JSON.stringify(data));
       return data
     } catch (error) {
       // return custom error message from API if any

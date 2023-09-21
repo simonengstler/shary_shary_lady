@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { registerUser, loginUser } from './authActions';
 
+const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
+
 const initialState = {
   loading: false,
-  userInfo: {},
+  userInfo,
   error: null,
-  success: false, // for monitoring the registration process.
+  success: false,
 };
 
 const authSlice = createSlice({
@@ -40,7 +42,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state) => {
         state.loading = false;
-        state.success = true; // registration successful
+        state.success = true;
       })
       .addCase(registerUser.rejected, (state, { payload }) => {
         state.loading = false;
