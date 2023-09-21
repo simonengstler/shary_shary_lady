@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.get('/:name', groupController.getGroupByName);
 router.get('/', groupController.getGroups);
+router.post('/', groupController.createGroup);
 
 module.exports = router;

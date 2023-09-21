@@ -29,7 +29,21 @@ const getGroups = () => {
   });
 };
 
+const createGroup = (name, creatorUserId) => {
+  return new Promise((resolve, reject) => {
+    const query = "INSERT INTO user_groups (name, created_by) VALUES (?, ?)";
+    connection.query(query, [name, creatorUserId], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results[0]);
+      }
+    });
+  });
+}
+
 module.exports = {
   getGroupByName,
   getGroups,
+  createGroup,
 };

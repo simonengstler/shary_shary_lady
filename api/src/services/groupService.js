@@ -8,8 +8,12 @@ const getGroups = () => {
     return groupModel.getGroups();
   };
   
+const createGroup = (name, creatorUserId) => {
+  return groupModel.createGroup(name, creatorUserId);
+}
 
 module.exports = {
   getGroupByName,
   getGroups,
+  createGroup,
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/auth/authSlice';
 import api from '../app/services/api';
 
@@ -10,19 +10,7 @@ const Groups = () => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [newGroupName, setNewGroupName] = useState('');
-
-  useEffect(() => {
-    api
-      .getGroups()
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.error('API Error:', error);
-      });
-  }, []);
-
-  const groupsData = data;
+  const { userInfo } = useSelector((state) => state.auth);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -38,20 +26,28 @@ const Groups = () => {
   };
 
   const handleCreateGroup = () => {
-    // Add logic to create a new group with 'newGroupName'
-    // You can make an API call or update your data state here
-    // After creating the group, close the modal and update the groups data
+    api.createGroup({name: newGroupName, creatorUserId: userInfo.userId});
 
-    // For example, you can update 'data' state like this:
-    // setData([...data, { group_id: generateUniqueId(), name: newGroupName }]);
-
-    // Close the modal
     toggleModal();
   };
 
   const createNewGroup = () => {
     toggleModal();
   };
+
+
+  useEffect(() => {
+    api
+      .getGroups()
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error('API Error:', error);
+      });
+  }, [handleCreateGroup]);
+
+  const groupsData = data;
 
   return (
     <div className="bg-gray-200 h-screen flex flex-col justify-center items-center">
@@ -104,7 +100,7 @@ const Groups = () => {
               <h3 className="text-xl font-semibold mb-4">Create a New Group</h3>
               <input
                 type="text"
-                placeholder="Group Name"
+                placeholder="GroupName"
                 className="border border-gray-300 px-3 py-2 rounded mb-4 w-full"
                 value={newGroupName}
                 onChange={handleInputChange}
