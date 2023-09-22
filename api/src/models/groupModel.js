@@ -3,10 +3,10 @@ const mysql2 = require("mysql2");
 
 const connection = mysql2.createConnection(database);
 
-const getGroupByName = (groupName) => {
+const getGroupById = (groupId) => {
   return new Promise((resolve, reject) => {
-    const query = "SELECT * FROM groups WHERE name = ?";
-    connection.query(query, [groupName], (error, results) => {
+    const query = "SELECT * FROM user_groups WHERE group_id = ?";
+    connection.query(query, [groupId], (error, results) => {
       if (error) {
         reject(error);
       } else {
@@ -43,7 +43,7 @@ const createGroup = (name, creatorUserId) => {
 }
 
 module.exports = {
-  getGroupByName,
+  getGroupById,
   getGroups,
   createGroup,
 };

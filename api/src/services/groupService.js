@@ -1,7 +1,7 @@
 const groupModel = require('../models/groupModel');
 
-const getGroupByName = (groupName) => {
-  return userModel.getGroupByName(groupName);
+const getGroupById = (groupId) => {
+  return groupModel.getGroupById(groupId);
 };
 
 const getGroups = () => {
@@ -13,7 +13,7 @@ const createGroup = (name, creatorUserId) => {
 }
 
 module.exports = {
-  getGroupByName,
+  getGroupById,
   getGroups,
   createGroup,
 };

@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Groups from './pages/Groups';
+import Group from './pages/Group'
 import ProtectedRoute from './routing/ProtectedRoute';
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/groups" element={<Groups />} />
+          <Route path="/groups/:groupId" element={<Group />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -66,6 +66,7 @@ const Groups = () => {
             <div
               key={group.group_id}
               className="bg-gray-50 text-center font-bold py-5 border-t-2 border-gray-150 shadow-md"
+              onClick={() => navigate(`/groups/${group.group_id}`)}
             >
               <span>{group.name}</span>
             </div>

@@ -1,8 +1,8 @@
 const groupService = require('../services/groupService.js');
 
-const getGroupByName = async (req, res) => {
-  const groupName = req.params.name;
-  const group = await groupService.getGroupByName(groupName);
+const getGroupById = async (req, res) => {
+  const groupId = req.params.groupId;
+  const group = await groupService.getGroupById(groupId);
   res.status(200).json(group);
 };
 
@@ -18,7 +18,7 @@ const createGroup = async (req, res) => {
 };
 
 module.exports = {
-  getGroupByName,
+  getGroupById,
   getGroups,
   createGroup,
 };

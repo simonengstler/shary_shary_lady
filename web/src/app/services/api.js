@@ -12,8 +12,8 @@ const apiInstance = axios.create({
 });
 
 const api = {
-  //getUserData: (userId) => apiInstance.get(`/users/${userId}`),
   getGroups: () => apiInstance.get('/groups'),
+  getGroupById: (groupId) => apiInstance.get(`/groups/${groupId}`),
   createGroup: (groupData) => apiInstance.post('/groups', groupData),
   loginUser: (loginData) => apiInstance.post('/auth/login', loginData),
   registerUser: (registerData) => apiInstance.post('/auth/register', registerData),
