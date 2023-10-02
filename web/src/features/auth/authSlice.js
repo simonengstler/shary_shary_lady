@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { registerUser, loginUser } from './authActions';
 
-const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
+const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {};
 
 const initialState = {
   loading: false,

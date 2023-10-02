@@ -40,10 +40,52 @@ const createGroup = (name, creatorUserId) => {
       }
     });
   });
+};
+
+const getMembersByGroupId = (groupId) => {
+  return new Promise((resolve, reject) => {
+    const query = "SELECT * FROM users INNER JOIN group_members ON users.user_id = group_members.user_id WHERE group_members.group_id = ?";
+    connection.query(query, [groupId], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
+const getSharedSongsByGroupId = (groupId) => {
+  return new Promise((resolve, reject) => {
+    const query = "SELECT * FROM shared_songs WHERE group_id = ?";
+    connection.query(query, [groupId], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
+const shareActiveSong = (userId, groupId, songLink) => {
+  return new Promise((resolve, reject) => {
+    const query = "INSERT INTO shared_songs (user_id, group_id, song_url, active) VALUES (?, ?, ?, true)";
+    connection.query(query, [userId, groupId, songLink], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve('Insert successful');
+      }
+    });
+  });
 }
 
 module.exports = {
   getGroupById,
   getGroups,
   createGroup,
+  getMembersByGroupId,
+  getSharedSongsByGroupId,
+  shareActiveSong,
 };
