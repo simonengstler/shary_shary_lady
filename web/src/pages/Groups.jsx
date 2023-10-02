@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/auth/authSlice';
 import api from '../app/services/api';
+import { ReactComponent as PlusIcon } from '../assets/icons/plus-icon.svg';
 
 const Groups = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Groups = () => {
   };
 
   const handleCreateGroup = () => {
-    api.createGroup({name: newGroupName, creatorUserId: userInfo.userId});
+    api.createGroup({ name: newGroupName, creatorUserId: userInfo.userId });
 
     toggleModal();
   };
@@ -34,7 +35,6 @@ const Groups = () => {
   const createNewGroup = () => {
     toggleModal();
   };
-
 
   useEffect(() => {
     api
@@ -75,25 +75,12 @@ const Groups = () => {
 
         {/* Button to open the modal */}
         <button
-          className="absolute top-4 right-4 text-white bg-gray-300 hover:bg-gray-400 rounded-md w-10 h-10 flex items-center justify-center"
+          className="absolute top-4 right-4 flex items-center justify-center"
           onClick={createNewGroup}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="4"
-              d="M12 4v16m8-8H4"
-            />
-          </svg>
+          <PlusIcon className="w-10 h-10 text-gray-700 transition-opacity duration-300 ease-in-out opacity-100 hover:opacity-70" />
         </button>
-
+        
         {/* Modal */}
         {showModal && (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">

@@ -9,7 +9,7 @@ module.exports = {
     },
     plugins: ['react'],
     rules: {
-      // Configure ESLint rules here
+      "react/prop-types": "off",
     },
   };
   
