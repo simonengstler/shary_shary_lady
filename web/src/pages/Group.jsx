@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import api from '../app/services/api';
+import { ReactComponent as OptionsIcon } from '../assets/icons/options-icon.svg';
+import OptionsModal from '../components/GroupOptionsModal';
 
 const Group = () => {
   const navigate = useNavigate();
   const { groupId } = useParams();
   const { userInfo } = useSelector((state) => state.auth);
 
+  const [isOptionsModalOpen, setIsOptionsModalOpen] = useState(false);
   const [group, setGroup] = useState(null);
   const [members, setMembers] = useState(null);
   const [sharedSongs, setSharedSongs] = useState(null);
@@ -18,16 +21,21 @@ const Group = () => {
       const groupsResponse = await api.getGroupById(groupId);
       const membersResponse = await api.getMembersByGroupId(groupId);
       const sharedSongsResponse = await api.getSharedSongsByGroupId(groupId);
-  
+
       if (
         groupsResponse.error ||
         membersResponse.error ||
         sharedSongsResponse.error
       ) {
-        console.error('API Error:', groupsResponse.error || membersResponse.error || sharedSongsResponse.error);
+        console.error(
+          'API Error:',
+          groupsResponse.error ||
+            membersResponse.error ||
+            sharedSongsResponse.error,
+        );
         return;
       }
-  
+
       setGroup(groupsResponse.data);
       setMembers(membersResponse.data);
       setSharedSongs(sharedSongsResponse.data);
@@ -47,7 +55,7 @@ const Group = () => {
   };
 
   useEffect(() => {
-      fetchData();
+    fetchData();
   }, [groupId]);
 
   const handlePostLink = (userId, link) => {
@@ -56,8 +64,24 @@ const Group = () => {
     fetchData();
   };
 
+  const toggleOptionsModal = () => {
+    setIsOptionsModalOpen(!isOptionsModalOpen);
+  };
+
   return (
     <div className="bg-gray-200 h-screen flex flex-col justify-center items-center">
+      
+      {/* Options button */}
+      <button
+        className="absolute top-4 right-4 flex items-center justify-center"
+        onClick={toggleOptionsModal}
+      >
+        <OptionsIcon className="w-7 h-9 text-gray-700 transition-opacity duration-300 ease-in-out opacity-100 hover:opacity-70" />
+      </button>
+
+      {/* Options Modal */}
+      <OptionsModal isOpen={isOptionsModalOpen} onClose={toggleOptionsModal} />
+
       <div className="bg-white py-8 rounded-lg shadow-md w-screen h-screen">
         <button
           className="absolute top-4 left-4 text-black"
