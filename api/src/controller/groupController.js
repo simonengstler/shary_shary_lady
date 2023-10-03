@@ -31,8 +31,20 @@ const getSharedSongsByGroupId = async (req, res) => {
 
 const shareActiveSong = async (req, res) => {
   const { userId, groupId, songLink } = req.body;
-  const result = await groupService.shareActiveSong(userId, groupId, songLink);
+  const result = await groupService.addSharedSong(userId, groupId, songLink);
   res.status(201).json(result);
+};
+
+const inviteUsernameToGroup = async (req, res) => {
+  const { username, groupId } = req.body;
+
+  const result = await groupService.addUsernameToGroup(username, groupId);
+  
+  if (result.success) {
+    return res.status(200).json({ message: result.message });
+  } else {
+    return res.status(400).json({ error: result.message });
+  }
 };
 
 module.exports = {
@@ -42,4 +54,5 @@ module.exports = {
   getMembersByGroupId,
   getSharedSongsByGroupId,
   shareActiveSong,
+  inviteUsernameToGroup,
 };

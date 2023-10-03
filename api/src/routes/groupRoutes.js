@@ -9,5 +9,6 @@ router.post('/', groupController.createGroup);
 router.get('/members/:groupId', groupController.getMembersByGroupId);
 router.get('/songs/:groupId', groupController.getSharedSongsByGroupId);
 router.post('/songs/', groupController.shareActiveSong);
+router.post('/invite/', groupController.inviteUsernameToGroup);
 
 module.exports = router;

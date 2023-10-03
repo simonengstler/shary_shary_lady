@@ -9,7 +9,6 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem('userInfo', JSON.stringify(data));
       return data
     } catch (error) {
-      // return custom error message from API if any
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message)
       } else {
@@ -24,6 +23,7 @@ export const registerUser = createAsyncThunk(
   async ({ username, password }, { rejectWithValue }) => {
     try {
       await api.registerUser({ username, password });
+      console.log('User registered successfully:', username);
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);

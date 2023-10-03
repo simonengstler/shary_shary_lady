@@ -68,10 +68,23 @@ const getSharedSongsByGroupId = (groupId) => {
   });
 };
 
-const shareActiveSong = (userId, groupId, songLink) => {
+const addSharedSong = (userId, groupId, songLink, active) => {
   return new Promise((resolve, reject) => {
-    const query = "INSERT INTO shared_songs (user_id, group_id, song_url, active) VALUES (?, ?, ?, true)";
-    connection.query(query, [userId, groupId, songLink], (error, results) => {
+    const query = "INSERT INTO shared_songs (user_id, group_id, song_url, active) VALUES (?, ?, ?, ?)";
+    connection.query(query, [userId, groupId, songLink, active], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve('Insert successful');
+      }
+    });
+  });
+}
+
+const addUserToGroup = (userId, groupId) => {
+  return new Promise((resolve, reject) => {
+    const query = "INSERT INTO group_members (user_id, group_id) VALUES (?, ?)";
+    connection.query(query, [userId, groupId], (error, results) => {
       if (error) {
         reject(error);
       } else {
@@ -87,5 +100,6 @@ module.exports = {
   createGroup,
   getMembersByGroupId,
   getSharedSongsByGroupId,
-  shareActiveSong,
+  addSharedSong,
+  addUserToGroup,
 };

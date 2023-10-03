@@ -20,6 +20,7 @@ const api = {
   createGroup: (groupData) => apiInstance.post('/groups', groupData),
   loginUser: (loginData) => apiInstance.post('/auth/login', loginData),
   registerUser: (registerData) => apiInstance.post('/auth/register', registerData),
+  inviteUsernameToGroup: (inviteData) => apiInstance.post('/groups/invite', inviteData),
 };
 
 export default api;

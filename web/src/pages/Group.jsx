@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import api from '../app/services/api';
 import { ReactComponent as OptionsIcon } from '../assets/icons/options-icon.svg';
-import OptionsModal from '../components/GroupOptionsModal';
+import GroupOptionsModal from '../components/GroupOptionsModal';
 
 const Group = () => {
   const navigate = useNavigate();
@@ -66,6 +66,7 @@ const Group = () => {
 
   const toggleOptionsModal = () => {
     setIsOptionsModalOpen(!isOptionsModalOpen);
+    fetchData();
   };
 
   return (
@@ -80,7 +81,7 @@ const Group = () => {
       </button>
 
       {/* Options Modal */}
-      <OptionsModal isOpen={isOptionsModalOpen} onClose={toggleOptionsModal} />
+      <GroupOptionsModal isOpen={isOptionsModalOpen} onClose={toggleOptionsModal} group={group} />
 
       <div className="bg-white py-8 rounded-lg shadow-md w-screen h-screen">
         <button
@@ -92,7 +93,7 @@ const Group = () => {
         <h3 className="text-2xl font-semibold text-center mb-6 font-abel">
           {group?.name || 'Loading...'}
         </h3>
-        <div className="w-screen text-center">
+        <div className="w-screen text-center pb-10">
           {group ? (
             <>
               <h2 className="text-xl text-left pl-2 font-semibold">

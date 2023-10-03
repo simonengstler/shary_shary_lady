@@ -8,8 +8,8 @@ const registerUser = (username, password) => {
 
 const loginUser = async (username) => {
     try {
-      const rows = await userModel.getUserByUsername(username)
-      return rows.length === 1 ? rows[0] : null;
+      const user = await userModel.getUserByUsername(username)
+      return user != null ? user : null;
     } catch (error) {
       throw error;
     }
