@@ -1,4 +1,5 @@
 const groupModel = require("../models/groupModel");
+const { get } = require("../routes/groupRoutes");
 const userService = require("./userService");
 
 const getGroups = () => {
@@ -7,6 +8,16 @@ const getGroups = () => {
 
 const getGroupById = (groupId) => {
   return groupModel.getGroupById(groupId);
+};
+
+const getGroupByName = async (name) => {
+  const group = await groupModel.getGroupByName(name);
+  return {
+    groupId: group.group_id,
+    name: group.name,
+    createdBy: group.created_by,
+    createdOn: group.created_on,
+  }
 };
 
 const getGroupsByUserId = async (userId) => {
@@ -26,8 +37,11 @@ const getGroupsByUserId = async (userId) => {
   }
 };
 
-const createGroup = (name, creatorUserId) => {
-  return groupModel.createGroup(name, creatorUserId);
+const createGroup = async (name, creatorUserId) => {
+  await groupModel.createGroup(name, creatorUserId);
+  const group = await getGroupByName(name);
+  await groupModel.addUserToGroup(creatorUserId, group.groupId);
+  return group;
 };
 
 const getMembersByGroupId = (groupId) => {
@@ -80,6 +94,7 @@ const addUsernameToGroup = async (username, groupId) => {
 module.exports = {
   getGroups,
   getGroupById,
+  getGroupByName,
   getGroupsByUserId,
   createGroup,
   getMembersByGroupId,

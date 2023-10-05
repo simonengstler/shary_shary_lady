@@ -29,6 +29,19 @@ const getGroupById = (groupId) => {
   });
 };
 
+const getGroupByName = (name) => {
+  return new Promise((resolve, reject) => {
+    const query = "SELECT * FROM user_groups WHERE name = ?";
+    connection.query(query, [name], (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results[0]);
+      }
+    });
+  });
+};
+
 const getGroupsByUserId = (userId) => {
   return new Promise((resolve, reject) => {
     const query = "SELECT * FROM group_members INNER JOIN user_groups ON group_members.group_id = user_groups.group_id WHERE group_members.user_id = ?";
@@ -49,7 +62,7 @@ const createGroup = (name, creatorUserId) => {
       if (error) {
         reject(error);
       } else {
-        resolve(results[0]);
+        resolve('Insert successful');
       }
     });
   });
@@ -110,6 +123,7 @@ const addUserToGroup = (userId, groupId) => {
 module.exports = {
   getGroups,
   getGroupById,
+  getGroupByName,
   getGroupsByUserId,
   createGroup,
   getMembersByGroupId,
