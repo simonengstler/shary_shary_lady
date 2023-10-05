@@ -1,14 +1,20 @@
 const groupService = require("../services/groupService.js");
 
+const getGroups = async (_, res) => {
+  const groups = await groupService.getGroups();
+  res.status(200).json(groups);
+};
+
 const getGroupById = async (req, res) => {
   const groupId = req.params.groupId;
   const group = await groupService.getGroupById(groupId);
   res.status(200).json(group);
 };
 
-const getGroups = async (_, res) => {
-  const groups = await groupService.getGroups();
-  res.status(200).json(groups);
+const getGroupsByUserId = async (req, res) => {
+  const userId = req.params.userId;
+  const group = await groupService.getGroupsByUserId(userId);
+  res.status(200).json(group);
 };
 
 const createGroup = async (req, res) => {
@@ -48,8 +54,9 @@ const inviteUsernameToGroup = async (req, res) => {
 };
 
 module.exports = {
-  getGroupById,
   getGroups,
+  getGroupById,
+  getGroupsByUserId,
   createGroup,
   getMembersByGroupId,
   getSharedSongsByGroupId,

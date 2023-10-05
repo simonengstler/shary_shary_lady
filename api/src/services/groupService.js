@@ -1,14 +1,31 @@
-const groupModel = require('../models/groupModel');
-const userService = require('./userService');
+const groupModel = require("../models/groupModel");
+const userService = require("./userService");
+
+const getGroups = () => {
+  return groupModel.getGroups();
+};
 
 const getGroupById = (groupId) => {
   return groupModel.getGroupById(groupId);
 };
 
-const getGroups = () => {
-    return groupModel.getGroups();
-  };
-  
+const getGroupsByUserId = async (userId) => {
+  try {
+    const groups = await groupModel.getGroupsByUserId(userId);
+    return groups.map((group) => ({
+      id: group.id,
+      userId: group.user_id,
+      groupId: group.group_id,
+      entryData: group.entry_data,
+      name: group.name,
+      createdBy: group.created_by,
+      createdOn: group.created_on,
+    }));
+  } catch (error) {
+    console.error("Error in getGroupsByUserId:", error);
+  }
+};
+
 const createGroup = (name, creatorUserId) => {
   return groupModel.createGroup(name, creatorUserId);
 };
@@ -29,42 +46,41 @@ const getSharedSongsByGroupId = async (groupId) => {
       createdOn: song.created_on,
     }));
   } catch (error) {
-    console.error('Error in getSharedSongsByGroupId:', error);
+    console.error("Error in getSharedSongsByGroupId:", error);
   }
-
 };
 
 const addSharedSong = async (userId, groupId, songLink) => {
-    return groupModel.addSharedSong(userId, groupId, songLink, true);
+  return groupModel.addSharedSong(userId, groupId, songLink, true);
 };
 
 const addUsernameToGroup = async (username, groupId) => {
   try {
     const user = await userService.getUserByUsername(username);
     if (!user) {
-      return { success: false, message: 'User not found' };
+      return { success: false, message: "User not found" };
     }
-    
+
     const existingMembers = await getMembersByGroupId(groupId);
-    const existingMembership = existingMembers.find((member) => member.user_id === user.user_id);
+    const existingMembership = existingMembers.find(
+      (member) => member.user_id === user.user_id
+    );
     if (existingMembership) {
-      return { success: false, message: 'User is already part of the group' };
+      return { success: false, message: "User is already part of the group" };
     }
-    
+
     await groupModel.addUserToGroup(user.user_id, groupId);
-    return { success: true, message: 'User successfully added to the group' };
-  
+    return { success: true, message: "User successfully added to the group" };
   } catch (error) {
-    console.error('Error adding user to group:', error);
-    return { success: false, message: 'An error occurred' };
+    console.error("Error adding user to group:", error);
+    return { success: false, message: "An error occurred" };
   }
-  
 };
 
-
 module.exports = {
-  getGroupById,
   getGroups,
+  getGroupById,
+  getGroupsByUserId,
   createGroup,
   getMembersByGroupId,
   getSharedSongsByGroupId,

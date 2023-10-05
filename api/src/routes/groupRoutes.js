@@ -3,8 +3,9 @@ const groupController = require('../controller/groupController.js');
 
 const router = express.Router();
 
-router.get('/:groupId', groupController.getGroupById);
 router.get('/', groupController.getGroups);
+router.get('/:groupId', groupController.getGroupById);
+router.get('/user/:userId', groupController.getGroupsByUserId);
 router.post('/', groupController.createGroup);
 router.get('/members/:groupId', groupController.getMembersByGroupId);
 router.get('/songs/:groupId', groupController.getSharedSongsByGroupId);

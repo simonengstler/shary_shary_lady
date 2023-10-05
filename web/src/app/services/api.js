@@ -14,6 +14,7 @@ const apiInstance = axios.create({
 const api = {
   getGroups: () => apiInstance.get('/groups'),
   getGroupById: (groupId) => apiInstance.get(`/groups/${groupId}`),
+  getGroupsByUserId: (userId) => apiInstance.get(`/groups/user/${userId}`),
   getMembersByGroupId: (groupId) => apiInstance.get(`/groups/members/${groupId}`),
   getSharedSongsByGroupId: (groupId) => apiInstance.get(`/groups/songs/${groupId}`),
   shareActiveSong: (shareData) => apiInstance.post(`/groups/songs`, shareData),

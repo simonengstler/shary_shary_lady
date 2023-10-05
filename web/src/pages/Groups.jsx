@@ -38,7 +38,7 @@ const Groups = () => {
 
   useEffect(() => {
     api
-      .getGroups()
+      .getGroupsByUserId(userInfo.userId)
       .then((response) => {
         setData(response.data);
       })
@@ -64,9 +64,9 @@ const Groups = () => {
         <div className="w-screen">
           {groupsData.map((group) => (
             <div
-              key={group.group_id}
+              key={group.groupId}
               className="bg-gray-50 text-center font-bold py-5 border-t-2 border-gray-150 shadow-md"
-              onClick={() => navigate(`/groups/${group.group_id}`)}
+              onClick={() => navigate(`/groups/${group.groupId}`)}
             >
               <span>{group.name}</span>
             </div>

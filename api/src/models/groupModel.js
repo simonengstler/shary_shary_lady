@@ -3,6 +3,19 @@ const mysql2 = require("mysql2");
 
 const connection = mysql2.createConnection(database);
 
+const getGroups = () => {
+  return new Promise((resolve, reject) => {
+    const query = 'SELECT * FROM user_groups';
+    connection.query(query, (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
 const getGroupById = (groupId) => {
   return new Promise((resolve, reject) => {
     const query = "SELECT * FROM user_groups WHERE group_id = ?";
@@ -16,10 +29,10 @@ const getGroupById = (groupId) => {
   });
 };
 
-const getGroups = () => {
+const getGroupsByUserId = (userId) => {
   return new Promise((resolve, reject) => {
-    const query = 'SELECT * FROM user_groups';
-    connection.query(query, (error, results) => {
+    const query = "SELECT * FROM group_members INNER JOIN user_groups ON group_members.group_id = user_groups.group_id WHERE group_members.user_id = ?";
+    connection.query(query, [userId], (error, results) => {
       if (error) {
         reject(error);
       } else {
@@ -95,8 +108,9 @@ const addUserToGroup = (userId, groupId) => {
 }
 
 module.exports = {
-  getGroupById,
   getGroups,
+  getGroupById,
+  getGroupsByUserId,
   createGroup,
   getMembersByGroupId,
   getSharedSongsByGroupId,
